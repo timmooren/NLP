@@ -14,20 +14,27 @@ from generate import GENERATE
 
 vocab = open("brown_vocab_100.txt")
 
-#load the indices dictionary
+# load the indices dictionary
 word_index_dict = {}
 for i, line in enumerate(vocab):
-    #TODO: import part 1 code to build dictionary
+    # import part 1 code to build dictionary
+    word = line.strip()
+    word_index_dict[word] = i
+vocab.close()
 
-f = open("brown_100.txt")
+# Initialize the numpy vector of counts with zeros
+counts = np.zeros(len(word_index_dict))
 
-counts = #TODO: initialize counts to a zero vector
+# Read the corpus file
+with open("brown_100.txt") as f:
+    for line in f:
+        # Split the sentence into a list of words and convert each word to lowercase
+        words = line.strip().lower().split()
 
-#TODO: iterate through file and update counts
+        # Iterate through the words and increment counts for each of the words they contain
+        for word in words:
+            if word in word_index_dict:
+                index = word_index_dict[word]
+                counts[index] += 1
 
 f.close()
-
-#TODO: normalize and writeout counts. 
-
-
-
