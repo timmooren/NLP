@@ -39,15 +39,17 @@ with codecs.open("brown_100.txt") as f:
             counts[word_index_dict[previous_word], word_index_dict[word]] += 1
             previous_word = word
 
+# Add-α smoothing with α = 0.1
+counts += 0.1
+
 # normalize counts
 probs = normalize(counts, norm='l1', axis=1)
 
-#writeout bigram probabilities
-with codecs.open("bigram_probs.txt", "w") as output_file:
-    bigrams = [("all", "the"), ("the", "jury"), ("the", "campaign"), ("anonymous", "calls")]
+# writeout bigram probabilities
+with codecs.open("smooth_probs.txt", "w") as output_file:
+    bigrams = [("all", "the"), ("the", "jury"),
+               ("the", "campaign"), ("anonymous", "calls")]
 
     for bigram in bigrams:
         prob = probs[word_index_dict[bigram[0]], word_index_dict[bigram[1]]]
         output_file.write(f"p({bigram[1]} | {bigram[0]}) = {prob}\n")
-
-
