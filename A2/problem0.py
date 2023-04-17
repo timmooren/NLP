@@ -35,8 +35,6 @@ def plot_frequency_curve(freq_dist, color, label, loglog=False):
     plt.legend()
     # save
     plt.savefig(f"plots/frequency_curve_loglog={loglog}{label}.png")
-    # clear
-    plt.clf()
 
 
 def analyze_corpus(category=None):

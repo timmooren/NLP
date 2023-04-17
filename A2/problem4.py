@@ -8,13 +8,10 @@ NLP A2: N-Gram Language Models
 DO NOT SHARE/DISTRIBUTE SOLUTIONS WITHOUT THE INSTRUCTOR'S PERMISSION
 """
 
-import numpy as np
 from sklearn.preprocessing import normalize
 from generate import GENERATE
 from problem2 import load_word_index_dict
 from problem3 import get_counts, write_bigram_probs
-import random
-import codecs
 
 
 def main():
@@ -30,8 +27,9 @@ def main():
 
     # writeout bigram probabilities
     bigrams = [("all", "the"), ("the", "jury"),
-                   ("the", "campaign"), ("anonymous", "calls")]
+               ("the", "campaign"), ("anonymous", "calls")]
     write_bigram_probs(probs, word_index_dict, "smooth_probs.txt", bigrams)
+
 
 if __name__ == "__main__":
     main()
