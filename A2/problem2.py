@@ -15,8 +15,7 @@ from generate import GENERATE
 word_index_dict = {}
 with open("brown_vocab_100.txt") as vocab:
     for i, line in enumerate(vocab):
-        # import part 1 code to build dictionary
-        word = line.strip()
+        word = line.strip().lower()
         word_index_dict[word] = i
 
 # Initialize the numpy vector of counts with zeros
