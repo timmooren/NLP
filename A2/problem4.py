@@ -11,45 +11,27 @@ DO NOT SHARE/DISTRIBUTE SOLUTIONS WITHOUT THE INSTRUCTOR'S PERMISSION
 import numpy as np
 from sklearn.preprocessing import normalize
 from generate import GENERATE
+from problem2 import load_word_index_dict
+from problem3 import get_counts, write_bigram_probs
 import random
 import codecs
 
 
-word_index_dict = {}
-with codecs.open("brown_vocab_100.txt") as vocab:
-    for i, line in enumerate(vocab):
-        word = line.strip().lower()
-        word_index_dict[word] = i
+def main():
+    word_index_dict = load_word_index_dict("brown_vocab_100.txt")
+    # initialize numpy 0s matrix
+    counts = get_counts(word_index_dict, "brown_100.txt")
 
+    # Add-α smoothing with α = 0.1
+    counts += 0.1
 
-# initialize numpy 0s matrix
-counts = np.zeros((len(word_index_dict), len(word_index_dict)))
+    # normalize counts
+    probs = normalize(counts, norm='l1', axis=1)
 
-# iterate through file and update counts
-with codecs.open("brown_100.txt") as f:
-    for line in f:
-        words = line.strip().split()
-
-        # previous word will be updated continuously
-        previous_word = '<s>'
-
-        for word in words[1:]:
-            word = word.lower()
-            # increment count for bigram
-            counts[word_index_dict[previous_word], word_index_dict[word]] += 1
-            previous_word = word
-
-# Add-α smoothing with α = 0.1
-counts += 0.1
-
-# normalize counts
-probs = normalize(counts, norm='l1', axis=1)
-
-# writeout bigram probabilities
-with codecs.open("smooth_probs.txt", "w") as output_file:
+    # writeout bigram probabilities
     bigrams = [("all", "the"), ("the", "jury"),
-               ("the", "campaign"), ("anonymous", "calls")]
+                   ("the", "campaign"), ("anonymous", "calls")]
+    write_bigram_probs(probs, word_index_dict, "smooth_probs.txt", bigrams)
 
-    for bigram in bigrams:
-        prob = probs[word_index_dict[bigram[0]], word_index_dict[bigram[1]]]
-        output_file.write(f"p({bigram[1]} | {bigram[0]}) = {prob}\n")
+if __name__ == "__main__":
+    main()
