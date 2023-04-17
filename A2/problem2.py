@@ -11,16 +11,13 @@ DO NOT SHARE/DISTRIBUTE SOLUTIONS WITHOUT THE INSTRUCTOR'S PERMISSION
 import numpy as np
 from generate import GENERATE
 
-
-vocab = open("brown_vocab_100.txt")
-
 # load the indices dictionary
 word_index_dict = {}
-for i, line in enumerate(vocab):
-    # import part 1 code to build dictionary
-    word = line.strip()
-    word_index_dict[word] = i
-vocab.close()
+with open("brown_vocab_100.txt") as vocab:
+    for i, line in enumerate(vocab):
+        # import part 1 code to build dictionary
+        word = line.strip()
+        word_index_dict[word] = i
 
 # Initialize the numpy vector of counts with zeros
 counts = np.zeros(len(word_index_dict))
@@ -37,4 +34,8 @@ with open("brown_100.txt") as f:
                 index = word_index_dict[word]
                 counts[index] += 1
 
-f.close()
+probs = counts / np.sum(counts)
+# write to unigram_probs.txt
+np.savetxt("unigram_probs.txt", probs)
+
+print(counts)
