@@ -34,7 +34,7 @@ def plot_frequency_curve(freq_dist, color, label, loglog=False):
     plt.title("Frequency Curve")
     plt.legend()
     # save
-    plt.savefig(f"plots/frequency_curve_loglog={loglog}{label}.png")
+    plt.savefig(f"plots/frequency_curve_loglog={loglog}.png")
 
 
 def analyze_corpus(category=None):
@@ -96,7 +96,6 @@ def main():
 
     for genre in genres:
         analyze_corpus(genre)
-
 
 if __name__ == '__main__':
     main()
