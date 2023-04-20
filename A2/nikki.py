@@ -33,14 +33,3 @@ sorted_adv = sorted(advdist, key=advdist.get, reverse=True)
 # for word in sorted_adv[:10]:
 #     print(word, advdist[word])
 
-plt.plot(list(fdist.keys()), list(fdist.values()), label='corpus', color='black')  # plot the frequency curve for the corpus
-plt.xlabel('Rank')
-plt.ylabel('Frequency')
-plt.legend()
-plt.show()
-
-plt.loglog(list(fdist.keys()), list(fdist.values()), label='corpus', color='black') 
-plt.xlabel('Log rank')
-plt.ylabel('Log frequency')
-plt.legend()
-plt.show()

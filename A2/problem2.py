@@ -46,3 +46,4 @@ def main():
     np.savetxt("unigram_probs.txt", probs)
 
     print(counts)
+

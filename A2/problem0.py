@@ -30,7 +30,7 @@ def plot_frequency_curve(freq_dist, color, label, loglog=False):
                  marker='o', color=color, label=label)
         plt.xlabel("Rank")
         plt.ylabel("Frequency")
-
+    
     plt.title("Frequency Curve")
     plt.legend()
     # save
