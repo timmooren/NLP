@@ -10,7 +10,8 @@ DO NOT SHARE/DISTRIBUTE SOLUTIONS WITHOUT THE INSTRUCTOR'S PERMISSION
 
 from sklearn.preprocessing import normalize
 from generate import GENERATE
-from problem2 import load_word_index_dict
+from problem1 import load_word_index_dict
+from problem2 import evaluate_toy_corpus
 from problem3 import get_counts, write_bigram_probs
 
 
@@ -29,6 +30,9 @@ def main():
     bigrams = [("all", "the"), ("the", "jury"),
                ("the", "campaign"), ("anonymous", "calls")]
     write_bigram_probs(probs, word_index_dict, "smooth_probs.txt", bigrams)
+
+    # assignment 6 evaluate toy corpus
+    evaluate_toy_corpus(probs, word_index_dict, "smoothed_eval.txt")
 
 
 if __name__ == "__main__":

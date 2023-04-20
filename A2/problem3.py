@@ -11,8 +11,8 @@ DO NOT SHARE/DISTRIBUTE SOLUTIONS WITHOUT THE INSTRUCTOR'S PERMISSION
 import numpy as np
 from sklearn.preprocessing import normalize
 from generate import GENERATE
-from problem2 import load_word_index_dict
-import random
+from problem1 import load_word_index_dict
+from problem2 import evaluate_toy_corpus
 import codecs
 
 
@@ -53,6 +53,8 @@ def main():
                ("the", "campaign"), ("anonymous", "calls")]
     write_bigram_probs(probs, word_index_dict, "bigram_probs.txt", bigrams)
 
+    # evaluate toy corpus for assignment 6
+    evaluate_toy_corpus(probs, word_index_dict, "bigram_eval.txt")
 
 if __name__ == "__main__":
     main()

@@ -1,4 +1,3 @@
-import codecs
 from collections import Counter
 from typing import Tuple
 

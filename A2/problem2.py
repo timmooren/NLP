@@ -10,17 +10,25 @@ DO NOT SHARE/DISTRIBUTE SOLUTIONS WITHOUT THE INSTRUCTOR'S PERMISSION
 
 import numpy as np
 from generate import GENERATE
+from problem1 import load_word_index_dict
 
-# load the indices dictionary
+def evaluate_toy_corpus(probs, word_index_dict, filename):
+    with open("toy_corpus.txt") as toy_corpus, open(filename, "w") as outfile:
+        for line in toy_corpus:
+            words = line.strip().lower().split()
 
+            # initialize sentprob to 1
+            sentprob = 1
+            for word in words:
+                if word in word_index_dict:
+                    sentprob *= probs[word_index_dict[word]]
 
-def load_word_index_dict(file_path):
-    word_index_dict = {}
-    with open(file_path) as vocab:
-        for i, line in enumerate(vocab):
-            word = line.strip().lower()
-            word_index_dict[word] = i
-    return word_index_dict
+            # calculate perplexity using assignment formula
+            sent_len = len(words)
+            perplexity = 1 / (pow(sentprob, 1.0 / sent_len))
+
+            outfile.write(f"{perplexity}\n")
+
 
 
 def main():
@@ -47,3 +55,9 @@ def main():
 
     print(counts)
 
+    # evaluate toy corpus for assignment 6
+    evaluate_toy_corpus(probs, word_index_dict, "unigram_eval.txt")
+
+
+if __name__ == "__main__":
+    main()
