@@ -22,11 +22,10 @@ def get_counts(word_index_dict, corpus_file_path):
     # iterate through file and update counts
     with codecs.open(corpus_file_path) as f:
         for line in f:
-            words = line.strip().split()
+            words = line.lower().strip().split()
             # previous word will be updated continuously
             previous_word = '<s>'
             for word in words[1:]:
-                word = word.lower()
                 counts[word_index_dict[previous_word],
                        word_index_dict[word]] += 1
                 previous_word = word
