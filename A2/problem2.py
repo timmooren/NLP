@@ -59,5 +59,13 @@ def main():
     evaluate_toy_corpus(probs, word_index_dict, "unigram_eval.txt")
 
 
+    # Generate sentences using unigram model
+    with open("unigram_generation.txt", "w") as f:
+        for i in range(10):
+            generated_sentence = GENERATE(word_index_dict, probs, "unigram", 50, None)
+            f.write(generated_sentence + "\n")
+
+
+
 if __name__ == "__main__":
     main()

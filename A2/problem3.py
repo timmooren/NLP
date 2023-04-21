@@ -56,5 +56,13 @@ def main():
     # evaluate toy corpus for assignment 6
     evaluate_toy_corpus(probs, word_index_dict, "bigram_eval.txt")
 
+    # Generate sentences using bigram model
+    with open("bigram_generation.txt", "w") as f:
+        for i in range(10):
+            generated_sentence = GENERATE(word_index_dict, probs, "bigram", 50, "<s>")
+            f.write(generated_sentence + "\n")
+
+
+
 if __name__ == "__main__":
     main()
