@@ -11,8 +11,8 @@ DO NOT SHARE/DISTRIBUTE SOLUTIONS WITHOUT THE INSTRUCTOR'S PERMISSION
 import numpy as np
 from sklearn.preprocessing import normalize
 from generate import GENERATE
-from problem2 import load_word_index_dict
-import random
+from problem1 import load_word_index_dict
+from problem2 import evaluate_toy_corpus
 import codecs
 
 
@@ -22,11 +22,10 @@ def get_counts(word_index_dict, corpus_file_path):
     # iterate through file and update counts
     with codecs.open(corpus_file_path) as f:
         for line in f:
-            words = line.strip().split()
+            words = line.lower().strip().split()
             # previous word will be updated continuously
             previous_word = '<s>'
             for word in words[1:]:
-                word = word.lower()
                 counts[word_index_dict[previous_word],
                        word_index_dict[word]] += 1
                 previous_word = word
@@ -53,6 +52,16 @@ def main():
     bigrams = [("all", "the"), ("the", "jury"),
                ("the", "campaign"), ("anonymous", "calls")]
     write_bigram_probs(probs, word_index_dict, "bigram_probs.txt", bigrams)
+
+    # evaluate toy corpus for assignment 6
+    evaluate_toy_corpus(probs, word_index_dict, "bigram_eval.txt")
+
+    # Generate sentences using bigram model
+    with open("bigram_generation.txt", "w") as f:
+        for i in range(10):
+            generated_sentence = GENERATE(word_index_dict, probs, "bigram", 50, "<s>")
+            f.write(generated_sentence + "\n")
+
 
 
 if __name__ == "__main__":
