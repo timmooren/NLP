@@ -43,16 +43,15 @@ def main():
             words = line.strip().lower().split()
 
             # Iterate through the words and increment counts for each of the words they contain
-            for word in words:
-                if word in word_index_dict:
-                    index = word_index_dict[word]
-                    counts[index] += 1
+            for word in words:               
+                index = word_index_dict[word]
+                counts[index] += 1
+                
+    print(counts)
 
     probs = counts / np.sum(counts)
     # write to unigram_probs.txt
     np.savetxt("unigram_probs.txt", probs)
-
-    print(counts)
 
     # evaluate toy corpus for assignment 6
     evaluate_toy_corpus(probs, word_index_dict, "unigram_eval.txt")
