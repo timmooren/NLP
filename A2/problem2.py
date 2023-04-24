@@ -25,12 +25,10 @@ def evaluate_toy_corpus(probs, word_index_dict, filename, model):
                 for word in words:
                     if word in word_index_dict:
                         sentprob *= probs[word_index_dict[word]]
-
             elif model == "bigram":
                 for i in range(1, len(words)):
-                    bigram_prob = probs[word_index_dict[words[i - 1]],
-                                        word_index_dict[words[i]]]
-                    sentprob *= bigram_prob
+                    sentprob *= probs[word_index_dict[words[i - 1]],
+                                      word_index_dict[words[i]]]
 
             # calculate perplexity using assignment formula
             sent_len = len(words)
