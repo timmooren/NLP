@@ -12,16 +12,31 @@ import numpy as np
 from generate import GENERATE
 from problem1 import load_word_index_dict
 
-def evaluate_toy_corpus(probs, word_index_dict, filename):
+
+def evaluate_toy_corpus(probs, word_index_dict, filename, model):
     with open("toy_corpus.txt") as toy_corpus, open(filename, "w") as outfile:
         for line in toy_corpus:
             words = line.strip().lower().split()
 
             # initialize sentprob to 1
             sentprob = 1
-            for word in words:
-                if word in word_index_dict:
-                    sentprob *= probs[word_index_dict[word]]
+
+            if model == "unigram":
+                for word in words:
+                    if word in word_index_dict:
+                        sentprob *= probs[word_index_dict[word]]
+
+            elif model == "bigram":
+                for i in range(1, len(words)):
+                    bigram_prob = probs[word_index_dict[words[i - 1]],
+                                        word_index_dict[words[i]]]
+                    sentprob *= bigram_prob
+
+            elif model == "trigram":
+                for i in range(2, len(words)):
+                    trigram_prob = probs[word_index_dict[words[i - 2]],
+                                         word_index_dict[words[i - 1]], word_index_dict[words[i]]]
+                    sentprob *= trigram_prob
 
             # calculate perplexity using assignment formula
             sent_len = len(words)
@@ -43,10 +58,10 @@ def main():
             words = line.strip().lower().split()
 
             # Iterate through the words and increment counts for each of the words they contain
-            for word in words:               
+            for word in words:
                 index = word_index_dict[word]
                 counts[index] += 1
-                
+
     print(counts)
 
     probs = counts / np.sum(counts)
@@ -56,13 +71,12 @@ def main():
     # evaluate toy corpus for assignment 6
     evaluate_toy_corpus(probs, word_index_dict, "unigram_eval.txt")
 
-
     # Generate sentences using unigram model
     with open("unigram_generation.txt", "w") as f:
         for i in range(10):
-            generated_sentence = GENERATE(word_index_dict, probs, "unigram", 50, None)
+            generated_sentence = GENERATE(
+                word_index_dict, probs, "unigram", 50, None)
             f.write(generated_sentence + "\n")
-
 
 
 if __name__ == "__main__":
