@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 
 def load_word_index_dict(file_path):
     word_index_dict = {}
