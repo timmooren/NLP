@@ -30,7 +30,6 @@ def evaluate_toy_corpus(probs, word_index_dict, filename):
             outfile.write(f"{perplexity}\n")
 
 
-
 def main():
     word_index_dict = load_word_index_dict("brown_vocab_100.txt")
 
