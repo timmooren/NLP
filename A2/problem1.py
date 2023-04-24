@@ -1,13 +1,3 @@
-#!/usr/bin/env python3
-
-"""
-NLP A2: N-Gram Language Models
-
-@author: Klinton Bicknell, Harry Eldridge, Nathan Schneider, Lucia Donatelli, Alexander Koller
-
-DO NOT SHARE/DISTRIBUTE SOLUTIONS WITHOUT THE INSTRUCTOR'S PERMISSION
-"""
-
 
 def load_word_index_dict(file_path):
     word_index_dict = {}

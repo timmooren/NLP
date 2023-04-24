@@ -39,6 +39,7 @@ def plot_frequency_curve(freq_dist, color, label, loglog=False):
 
 def analyze_corpus(category=None):
     name = category if category else 'corpus'
+    
     name2color = {
         'corpus': 'blue',
         'news': 'red',
@@ -50,27 +51,27 @@ def analyze_corpus(category=None):
     words = [word for word in corpus if any(c.isalpha() for c in word)]
     # number of tokens
     num_tokens = len(corpus)
-    # number of types
-    num_types = len(set(corpus))
+    # number of types (unique words)
+    num_types = len(set(words))
     # number of words
     num_words = len(words)
 
     # Create frequency distributions
     corpus_fd = FreqDist(w.lower() for w in words)
+    
     # Compute a list of unique words sorted by descending frequency
     most_common = corpus_fd.most_common(10)
 
     # plot frequency curve
     plot_frequency_curve(corpus_fd, color=name2color[name], label=name)
-    plot_frequency_curve(
-        corpus_fd, color=name2color[name], label=name, loglog=True)
+    plot_frequency_curve(corpus_fd, color=name2color[name], label=name, loglog=True)
 
     # average number of words per sentence
     sents = brown.sents(categories=category)
-
     num_sents = len(sents)
-    avg_words_per_sent = num_words / num_sents
-    avg_word_length = sum(len(word) for word in words) / num_words
+    avg_words_per_sent = num_tokens / num_sents
+    
+    avg_word_length = sum(len(word) for word in words) / num_tokens
 
     pos_tags = nltk.pos_tag(words)
     pos_tags_fd = FreqDist(tag for word, tag in pos_tags)
@@ -96,7 +97,6 @@ def main():
 
     for genre in genres:
         analyze_corpus(genre)
-
 
 if __name__ == '__main__':
     main()

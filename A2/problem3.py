@@ -1,18 +1,8 @@
-#!/usr/bin/env python3
-
-"""
-NLP A2: N-Gram Language Models
-
-@author: Klinton Bicknell, Harry Eldridge, Nathan Schneider, Lucia Donatelli, Alexander Koller
-
-DO NOT SHARE/DISTRIBUTE SOLUTIONS WITHOUT THE INSTRUCTOR'S PERMISSION
-"""
-
 import numpy as np
 from sklearn.preprocessing import normalize
 from generate import GENERATE
 from problem1 import load_word_index_dict
-from problem2 import evaluate_toy_corpus
+from problem6_agnes import compute_perplexity
 import codecs
 
 
@@ -47,14 +37,17 @@ def main():
 
     # normalize counts
     probs = normalize(counts, norm='l1', axis=1)
-
+        
+    # save probs to file
+    np.savetxt("bigram_all_probs.txt", probs, delimiter=",")
+    
+    # evaluate toy corpus for assignment 6
+    compute_perplexity("toy_corpus.txt", "bigram_eval.txt", probs, word_index_dict, "bigram")
+    
     # writeout bigram probabilities
     bigrams = [("all", "the"), ("the", "jury"),
                ("the", "campaign"), ("anonymous", "calls")]
     write_bigram_probs(probs, word_index_dict, "bigram_probs.txt", bigrams)
-
-    # evaluate toy corpus for assignment 6
-    evaluate_toy_corpus(probs, word_index_dict, "bigram_eval.txt", "bigram")
 
     # Generate sentences using bigram model
     with open("bigram_generation.txt", "w") as f:
@@ -62,7 +55,18 @@ def main():
             generated_sentence = GENERATE(word_index_dict, probs, "bigram", 50, "<s>")
             f.write(generated_sentence + "\n")
 
+    # generate 10 sentences using bigram model
+    for i in range(10):
+        sentence = GENERATE(word_index_dict, probs, "bigram", 100, "<s>")
+        print(sentence)
 
-
+    # Add-α smoothing with α = 0.1
+    counts += 0.1
+    probs = normalize(counts, norm='l1', axis=1)
+    # generate 10 sentences using bigram model
+    for i in range(10):
+        sentence = GENERATE(word_index_dict, probs, "bigram", 100, "<s>")
+        print(sentence)
+    
 if __name__ == "__main__":
     main()

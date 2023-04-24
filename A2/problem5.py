@@ -1,3 +1,4 @@
+import codecs
 from collections import Counter
 from typing import Tuple
 
@@ -7,7 +8,7 @@ def count_bigrams(corpus_file_path):
 
     with open(corpus_file_path) as f:
         for line in f:
-            words = line.lower().strip().split()[1:]
+            words = line.lower().strip().split()
             bigrams = zip(words[:-1], words[1:])
             bigram_counts.update(bigrams)
 
@@ -19,7 +20,7 @@ def count_trigrams(corpus_file_path):
 
     with open(corpus_file_path) as f:
         for line in f:
-            words = line.lower().strip().split()[1:]
+            words = line.lower().strip().split()
             trigrams = zip(words[:-2], words[1:-1], words[2:])
             trigram_counts.update(trigrams)
 
@@ -44,7 +45,7 @@ def trigram_probability(bigram: Tuple[str, str], next_word: str, bigram_counts: 
 
     # add smoothing if alpha is provided
     trigram_count = trigram_counts[trigram] + alpha
-    bigram_count = bigram_counts[bigram] + alpha * 813
+    bigram_count = bigram_counts[bigram] + alpha * len(bigram_counts)
 
     if bigram_count == 0:
         return 0
@@ -58,6 +59,8 @@ def main():
     text_file = "brown_100.txt"
     bigram_counts = count_bigrams(text_file)
     trigram_counts = count_trigrams(text_file)
+    print(trigram_counts)
+
     trigrams_to_check = [
         (("in", "the"), "past"),
         (("in", "the"), "time"),
@@ -69,11 +72,10 @@ def main():
 
     print("Unsmoothed Trigram Probabilities:")
     for bigram, next_word in trigrams_to_check:
-
         probability = trigram_probability(
             bigram, next_word, bigram_counts, trigram_counts)
         print(f"p({next_word} | {bigram}): {probability}")
-
+    
     print("\nSmoothed Trigram Probabilities:")
     for bigram, next_word in trigrams_to_check:
         probability = trigram_probability(

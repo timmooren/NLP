@@ -10,31 +10,16 @@ DO NOT SHARE/DISTRIBUTE SOLUTIONS WITHOUT THE INSTRUCTOR'S PERMISSION
 
 import numpy as np
 from generate import GENERATE
-from problem1 import load_word_index_dict
+from problem6_agnes import compute_perplexity
 
-
-def evaluate_toy_corpus(probs, word_index_dict, filename, model):
-    with open("toy_corpus.txt") as toy_corpus, open(filename, "w") as outfile:
-        for line in toy_corpus:
-            words = line.strip().lower().split()
-
-            # initialize sentprob to 1
-            sentprob = 1
-
-            if model == "unigram":
-                for word in words:
-                    if word in word_index_dict:
-                        sentprob *= probs[word_index_dict[word]]
-            elif model == "bigram":
-                for i in range(1, len(words)):
-                    sentprob *= probs[word_index_dict[words[i - 1]],
-                                      word_index_dict[words[i]]]
-
-            # calculate perplexity using assignment formula
-            sent_len = len(words)
-            perplexity = 1 / (pow(sentprob, 1.0 / sent_len))
-
-            outfile.write(f"{perplexity}\n")
+def load_word_index_dict(file_path):
+    # load the indices dictionary
+    word_index_dict = {}
+    with open(file_path) as vocab:
+        for i, line in enumerate(vocab):
+            word = line.strip().lower()
+            word_index_dict[word] = i
+    return word_index_dict
 
 
 def main():
@@ -51,25 +36,23 @@ def main():
 
             # Iterate through the words and increment counts for each of the words they contain
             for word in words:
-                index = word_index_dict[word]
-                counts[index] += 1
-
-    print(counts)
+                if word in word_index_dict:                 # TODO: not necessary
+                    index = word_index_dict[word]
+                    counts[index] += 1
 
     probs = counts / np.sum(counts)
+
     # write to unigram_probs.txt
     np.savetxt("unigram_probs.txt", probs)
 
-    # evaluate toy corpus for assignment 6
-    evaluate_toy_corpus(probs, word_index_dict, "unigram_eval.txt", "unigram")
-
-    # Generate sentences using unigram model
-    with open("unigram_generation.txt", "w") as f:
-        for i in range(10):
-            generated_sentence = GENERATE(
-                word_index_dict, probs, "unigram", 50, None)
-            f.write(generated_sentence + "\n")
-
-
+    # compute perplexity
+    compute_perplexity("toy_corpus.txt", "unigram_eval.txt", probs, word_index_dict)
+    
+    # use provided generate function to generate 10 sentences
+    for i in range(10):
+        sentence = GENERATE(word_index_dict, probs, "unigram", 100, None)
+        print(sentence)
+    
+# run the main function
 if __name__ == "__main__":
-    main()
+    main()	

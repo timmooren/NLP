@@ -1,0 +1,6 @@
+p(past | in, the) = 0.011305241521068859
+p(time | in, the) = 0.0010277492291880781
+p(said | the, jury) = 0.0752916224814422
+p(recommended | the, jury) = 0.02226935312831389
+p(that | jury, said) = 0.0011198208286674132
+p(, | agriculture, teacher) = 0.013365735115431349
