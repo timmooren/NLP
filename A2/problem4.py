@@ -32,7 +32,7 @@ def main():
     write_bigram_probs(probs, word_index_dict, "smooth_probs.txt", bigrams)
 
     # assignment 6 evaluate toy corpus
-    evaluate_toy_corpus(probs, word_index_dict, "smoothed_eval.txt")
+    evaluate_toy_corpus(probs, word_index_dict, "smoothed_eval.txt", "bigram")
 
 
     # Generate 10 sentences using smoothed bigram model

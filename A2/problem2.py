@@ -32,12 +32,6 @@ def evaluate_toy_corpus(probs, word_index_dict, filename, model):
                                         word_index_dict[words[i]]]
                     sentprob *= bigram_prob
 
-            elif model == "trigram":
-                for i in range(2, len(words)):
-                    trigram_prob = probs[word_index_dict[words[i - 2]],
-                                         word_index_dict[words[i - 1]], word_index_dict[words[i]]]
-                    sentprob *= trigram_prob
-
             # calculate perplexity using assignment formula
             sent_len = len(words)
             perplexity = 1 / (pow(sentprob, 1.0 / sent_len))
@@ -69,7 +63,7 @@ def main():
     np.savetxt("unigram_probs.txt", probs)
 
     # evaluate toy corpus for assignment 6
-    evaluate_toy_corpus(probs, word_index_dict, "unigram_eval.txt")
+    evaluate_toy_corpus(probs, word_index_dict, "unigram_eval.txt", "unigram")
 
     # Generate sentences using unigram model
     with open("unigram_generation.txt", "w") as f:
